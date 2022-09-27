@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  gerenciador:
+    image: "gerenciador:latest"
+    hostname: gerenciador:8080
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mysqldb
+    command: sh -c './wait-for mysqldb:3306 -- npm start'
+  mysqldb:
+    image: "mysql:8.0"
+    hostname: mysqldb
+    ports:
+      - 3307:3306
+    expose:
+      - 3306
+    environment:
+      MYSQL_DATABASE: gerenciador
+      MYSQL_USER: gerenciador
+      MYSQL_PASSWORD: gerenciador123
+      MYSQL_ROOT_PASSWORD: 123424524542
